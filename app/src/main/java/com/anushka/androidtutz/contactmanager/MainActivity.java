@@ -1,5 +1,6 @@
 package com.anushka.androidtutz.contactmanager;
 
+import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anushka.androidtutz.contactmanager.adapter.ContactsAdapter;
+import com.anushka.androidtutz.contactmanager.db.ContactsAppDatabase;
 import com.anushka.androidtutz.contactmanager.db.entity.Contact;
 
 import java.util.ArrayList;
