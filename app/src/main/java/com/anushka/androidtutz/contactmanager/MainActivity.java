@@ -1,9 +1,12 @@
 package com.anushka.androidtutz.contactmanager;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Contact> contactArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ContactsAppDatabase contactsAppDatabase;
+    private static final String TAG="MainActivityTag";
 
 
 
@@ -45,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(" Contacts Manager ");
 
         recyclerView = findViewById(R.id.recycler_view_contacts);
-        contactsAppDatabase= Room.databaseBuilder(getApplicationContext(),ContactsAppDatabase.class,"ContactDB").build();
+        contactsAppDatabase= Room.databaseBuilder(getApplicationContext(),ContactsAppDatabase.class,"ContactDB").addCallback(callback).build();
+
+
 
         new GetAllContactsAsyncTask().execute();
 
@@ -272,5 +279,32 @@ public class MainActivity extends AppCompatActivity {
          contactsAdapter.notifyDataSetChanged();
      }
  }
+
+ RoomDatabase.Callback callback= new RoomDatabase.Callback() {
+     @Override
+     public void onCreate(@NonNull SupportSQLiteDatabase db) {
+         super.onCreate(db);
+
+         //Toast.makeText(getApplicationContext()," On Create Called ",Toast.LENGTH_LONG).show();
+         Log.i(TAG, " on create invoked ");
+
+         createContact("name 1","email 1");
+         createContact("name 2","email 2");
+         createContact("name 3","email 3");
+
+
+     }
+
+
+     @Override
+     public void onOpen(@NonNull SupportSQLiteDatabase db) {
+         super.onOpen(db);
+
+       //  Toast.makeText(getApplicationContext()," On Create Called ",Toast.LENGTH_LONG).show();
+         Log.i(TAG, " on open invoked ");
+
+     }
+
+ };
 
 }

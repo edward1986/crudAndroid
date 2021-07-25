@@ -10,4 +10,6 @@ public abstract class ContactsAppDatabase extends RoomDatabase {
 
     public abstract ContactDAO getContactDAO();
 
+
+
 }
